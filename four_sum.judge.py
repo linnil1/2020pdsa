@@ -4,10 +4,10 @@ import imp
 
 class Tester(Judger): 
     def __init__(self):
-        super().__init__("4sum.json", debug=True)
+        super().__init__("four_sum.json", debug=True)
 
     def run(self, sample):
-        Solution = imp.load_source("4sum", '4sum.sol3.py').Solution
+        Solution = imp.load_source("four_sum", 'four_sum.sol.py').Solution
         return Solution().fourSum(sample['nums'], sample['target'])
 
     def compare(self, out, sample):
