@@ -4,7 +4,7 @@ import com.google.gson.annotations.SerializedName;
 import java.io.FileReader;
 import java.io.IOException;
 
-import java.util.Arrays; 
+import java.util.Arrays;
 import java.util.List;
 /*
 dk openjdk:8-slim javac -cp gson.jar two_sum_judge.java  two_sum_sol.java
@@ -12,19 +12,20 @@ dk openjdk:8-slim java -cp gson.jar:. two_sum_judge
 */
 
 public class four_sum_judge {
-    static boolean compare(List<List<Integer>> out, List<List<Integer>> ans) {
+    public static boolean compare(List<int[]> out, Sample s) {
+        List<int[]> ans = s.answer;
         if (out.size()!=ans.size()){
             return false;
         }
         for(int i = 0; i < out.size(); ++i){
-            if(!out.get(i).equals(ans.get(i))){
+            if(!Arrays.equals(out.get(i),ans.get(i))){
                 return false;
             }
         }
         return true;
     }
 
-    static List<List<Integer>> run(Sample s) {
+    static List<int[]> run(Sample s) {
         return new four_sum_sol().fourSum(s.nums, s.target);
     }
 
@@ -40,21 +41,21 @@ public class four_sum_judge {
                 for(int j=0; j<c.data.length; ++j) {
                     Sample s = c.data[j];
                     long clk_s = System.currentTimeMillis();
-                    List<List<Integer>> out = run(s);
+                    List<int[]> out = run(s);
 
                     clk_s = System.currentTimeMillis() - clk_s;
                     times += clk_s;
 
-                    if (!compare(out, s.answer)) { 
-                        for (List<Integer> qwer:out){
-                            System.out.print("< " + qwer.toString());                            
+                    if (!compare(out, s)) {
+                        for (int[] qwer:out){
+                            System.out.print("< " + Arrays.toString(qwer));
                         }
-                        for (List<Integer> rewq:s.answer){
-                            System.out.print("> " + rewq.toString());
+                        for (int[] rewq:s.answer){
+                            System.out.print("> " + Arrays.toString(rewq));
                         }
                     }
                 }
-               
+
                 System.out.println(String.valueOf(times) + " ms");
             }
         } catch (IOException e) {
@@ -65,7 +66,7 @@ public class four_sum_judge {
     static class Sample {
         int[] nums;
         int target;
-        List<List<Integer>> answer;
+        List<int[]> answer;
         public Sample() {}
     }
 

@@ -4,15 +4,15 @@ import com.google.gson.annotations.SerializedName;
 import java.io.FileReader;
 import java.io.IOException;
 
-import java.util.Arrays; 
+import java.util.Arrays;
 /*
 dk openjdk:8-slim javac -cp gson.jar two_sum_judge.java  two_sum_sol.java
 dk openjdk:8-slim java -cp gson.jar:. two_sum_judge
 */
 
 public class two_sum_judge {
-    static boolean compare(int[] out, int[] ans) {
-        return Arrays.equals(out, ans);
+    static boolean compare(int[] out, Sample s) {
+        return Arrays.equals(out, s.answer);
     }
 
     static int[] run(Sample s) {
@@ -39,7 +39,7 @@ public class two_sum_judge {
                     // System.out.println(" ms");
                     times += clk_s;
 
-                    if (!compare(out, s.answer)) { 
+                    if (!compare(out, s)) {
                         System.out.println("< " + Arrays.toString(out));
                         System.out.println("> " + Arrays.toString(s.answer));
                     }
