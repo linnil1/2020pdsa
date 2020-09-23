@@ -6,19 +6,35 @@ import java.io.IOException;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Collections;
+import java.util.Comparator;
 /*
 dk openjdk:8-slim javac -cp gson.jar two_sum_judge.java  two_sum_sol.java
 dk openjdk:8-slim java -cp gson.jar:. two_sum_judge
 */
 
 public class four_sum_judge {
-    public static boolean compare(List<int[]> out, Sample s) {
-        List<int[]> ans = s.answer;
-        if (out.size()!=ans.size()){
+    public static boolean compare(List<int[]> out, List<int[]> ans) {
+        if (out.size() != ans.size()){
             return false;
         }
-        for(int i = 0; i < out.size(); ++i){
-            if(!Arrays.equals(out.get(i),ans.get(i))){
+        for(int i=0; i<out.size(); ++i){
+            if(ans.get(i).length != out.get(i).length)
+                return false;
+        }
+
+        Collections.sort(out, new Comparator<int[]>() {
+            @Override
+            public int compare(int[] s1,int[] s2) {
+                for(int i=0 ; i<s1.length ; ++i)
+                    if (s1[i] != s2[i])
+                        return s1[i]<s2[i] ? -1 : 1;
+                return 0;
+            }
+        });
+
+        for(int i=0; i<out.size(); ++i){
+            if(!Arrays.equals(out.get(i), ans.get(i))){
                 return false;
             }
         }
@@ -46,7 +62,7 @@ public class four_sum_judge {
                     clk_s = System.currentTimeMillis() - clk_s;
                     times += clk_s;
 
-                    if (!compare(out, s)) {
+                    if (!compare(out, s.answer)) {
                         for (int[] qwer:out){
                             System.out.print("< " + Arrays.toString(qwer));
                         }

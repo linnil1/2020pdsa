@@ -16,31 +16,26 @@ dk openjdk:8-slim java -cp gson.jar:. two_sum_judge
 
 public class three_sum_judge {
     static boolean compare(List<int[]> out, List<int[]> ans) {
-        if (out.size()!=ans.size()){
+        if (out.size() != ans.size()){
             return false;
         }
+        for(int i=0; i<out.size(); ++i){
+            if(ans.get(i).length != out.get(i).length)
+                return false;
+        }
 
-        Collections.sort(ans,new Comparator<int[]>() {
+        Collections.sort(out, new Comparator<int[]>() {
             @Override
             public int compare(int[] s1,int[] s2) {
-                int size,comp;
-                if (s1.length>s2.length){
-                    size = s2.length;
-                }
-                else{
-                    size=s1.length;
-                }
-                for(int i = 0;i<size;++i){
-                    comp=s1[0]-s2[0];
-                    if(comp!=0){
-                        return (comp>0?1:-1);
-                    }
-                }
+                for(int i=0 ; i<s1.length ; ++i)
+                    if (s1[i] != s2[i])
+                        return s1[i]<s2[i] ? -1 : 1;
                 return 0;
             }
         });
-        for(int i = 0; i < out.size(); ++i){
-            if(!Arrays.equals(out.get(i),ans.get(i))){
+
+        for(int i=0; i<out.size(); ++i){
+            if(!Arrays.equals(out.get(i), ans.get(i))){
                 return false;
             }
         }
@@ -70,10 +65,10 @@ public class three_sum_judge {
 
                     if (!compare(out, s.answer)) { 
                         for (int[] qwer:out){
-                            System.out.print("< " + qwer.toString());                            
+                            System.out.print("< " + Arrays.toString(qwer) + "\n");
                         }
                         for (int[] rewq:s.answer){
-                            System.out.print("> " + rewq.toString());
+                            System.out.print("> " + Arrays.toString(rewq) + "\n");
                         }
                     }
                 }

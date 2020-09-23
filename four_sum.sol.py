@@ -20,6 +20,43 @@ class Solution:
         return ans
 
     def fourSum(self, nums: List[int], target: int) -> List[List[int]]:
+        # For non-duplicate data N^2
+        answer = []
+        two_value_map = defaultdict(list)
+        for i, a in enumerate(nums):
+            for b in nums[i+1:]:
+                two_value_map[a + b].append((a, b))
+
+        for i in two_value_map.keys():
+            if not two_value_map.get(target - i):
+                continue
+            for a in two_value_map[i]:
+                for b in two_value_map[target - i]:
+                    if b[0] != a[0] != b[1] != a[1] != b[0]:
+                        answer.append(tuple(sorted([*a, *b])))
+
+        return list(map(list, sorted(set(answer))))
+
+        # N^3
+        nums = sorted(nums)
+        answer = []
+        ind = set(nums)
+        for i, a in enumerate(nums):
+            if a + a + a + a >= target:
+                break
+            for j in range(i + 1, len(nums)):
+                b = nums[j]
+                if a + b + b + b >= target:
+                    break
+                for k in range(j + 1, len(nums)):
+                    c = nums[k]
+                    if a + b + c + c >= target:
+                        break
+                    if target - a - b - c in ind:
+                        answer.append([a, b, c, target - a - b - c])
+        return answer
+
+        # For duplicated data N^2
         count_dict = defaultdict(int)
         answer = []
         for v in nums:
@@ -51,3 +88,6 @@ class Solution:
             elif a != answer[-1]:
                 answer.append(a)
         return list(map(list, answer))
+
+
+# print(Solution().fourSum([1, 0, -1, -2, 2], 0))
