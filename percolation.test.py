@@ -75,6 +75,30 @@ class MyEncoder(json.JSONEncoder):
             return super(MyEncoder, self).default(obj)
 
 
+def long_road(n):
+    board = [[False] * n for _ in range(n)]
+    grid = []
+    k = n - 2
+    for j in range(0, n, 2):
+        for i in range(1, n - 1):
+            board[i][j] = True
+    for j in range(1, n, 4):
+        board[n - 2][j] = True
+    for j in range(3, n, 4):
+        board[1][j] = True
+
+    stones = []
+    for i in range(n):
+        for j in range(n):
+            if board[i][j]:
+                stones.append([i, j])
+
+    np.random.shuffle(stones)
+
+    return [{'func': 'open', 'args': i, 'answer': None}
+            for i in stones]
+
+
 # cases = json.load(open("percolation.json"))
 cases = []
 cases.append({
@@ -223,10 +247,30 @@ cases.append({
         # xoxoxo
         # xoxooo
         # xoxxxx
+        [{'func': 'init',      'args': [49],    'answer': None},
+         *long_road(49),
+         *[{'func': 'isFull',  'args': [47, 48], 'answer': False} for _ in range(10000)],
+         *[{'func': 'precolates',  'args': [], 'answer': False} for _ in range(10000)],
+         {'func': 'open',       'args': [0, 0], 'answer': None},
+         *[{'func': 'isFull',  'args': [47, 48], 'answer': True} for _ in range(10000)],
+         *[{'func': 'precolates',  'args': [], 'answer': False} for _ in range(10000)],
+         {'func': 'open',       'args': [48, 48], 'answer': None},
+         *[{'func': 'isFull',  'args': [47, 48], 'answer': True} for _ in range(10000)],
+         *[{'func': 'precolates',  'args': [], 'answer': True} for _ in range(10000)]],
+
+        [{'func': 'init',      'args': [49],    'answer': None},
+         *long_road(49),
+         *[{'func': 'isFull',  'args': [47, 48], 'answer': False} for _ in range(10000)],
+         *[{'func': 'precolates',  'args': [], 'answer': False} for _ in range(10000)],
+         {'func': 'open',       'args': [48, 48], 'answer': None},
+         *[{'func': 'isFull',  'args': [47, 48], 'answer': False} for _ in range(10000)],
+         *[{'func': 'precolates',  'args': [], 'answer': False} for _ in range(10000)],
+         {'func': 'open',       'args': [0, 0], 'answer': None},
+         *[{'func': 'isFull',  'args': [47, 48], 'answer': True} for _ in range(10000)],
+         *[{'func': 'precolates',  'args': [], 'answer': True} for _ in range(10000)]],
     ]
 })
 
-"""
 cases.append({
     'case': 3,
     'score': 20,
@@ -250,7 +294,6 @@ cases.append({
         *generateQuestion(1, 250),
     ]
 })
-"""
 
 # 50 -> 40ms
 # 100 -> 150ms
@@ -259,4 +302,4 @@ cases.append({
 # 300 -> 1.4s
 # 1000 -> 18s
 json.dump(cases, open("percolation.json", "w"), cls=MyEncoder)
-pprint(cases)
+# pprint(cases)

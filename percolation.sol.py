@@ -63,6 +63,8 @@ class Percolation():
         """ Open site (row i, column j) if it is not open already """
         # it self
         id = self.mapID(i, j)
+        if self.set.is_open[id]:
+            raise ValueError
         self.set.is_open[id] = True
 
         # connect to surround
@@ -89,7 +91,10 @@ class Percolation():
 
     def isFull(self, i :int, j :int) -> bool:
         """ Is site (row i, column j) full? """
-        return self.set.isConnected(0, self.mapID(i, j))
+        id = self.mapID(i, j)
+        if not self.set.is_open[id]:
+            raise ValueError
+        return self.set.isConnected(0, id)
         
     def precolates(self) -> bool:
         """ Does the system percolate? """
