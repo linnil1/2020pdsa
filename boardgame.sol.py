@@ -89,6 +89,7 @@ class BoardGame:
         """
         self.set = DisjointSet(0)
         self.map = {}
+        self.N = max(h, w)
 
     def putStone(self, x :List[int], y :List[int], stoneType :str):
         """
@@ -170,10 +171,15 @@ class BoardGame:
         id = self.set.find(self.map[(x, y)])
         return self.set.chesses[id]
 
+    def __str__(self):
+        board = [['.'] * self.N for _ in range(self.N)]
+        for i, j in self.map.items():
+            board[i[0]][i[1]] = self.set.chesses[j]
+        return "\n".join([(''.join(i)) for i in board]) + "\n"
+
 
 if __name__ == "__main__":
-    g = BoardGame()
-    g.setBoardSize(5, 5)
+    g = BoardGame(5, 5)
     """
     .....
     ..x..
