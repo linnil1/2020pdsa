@@ -30,12 +30,17 @@ public abstract class Judger<Tout> {
 
                     clk_s = System.currentTimeMillis() - clk_s;
                     times += clk_s;
-                    System.out.println("\tSample" + String.valueOf(j) + ":\t" 
-                                       + String.valueOf(clk_s) + "ms");
 
+                    System.out.print("\tSample" + String.valueOf(j) + ":\t");
                     if (!compare(out, s)) {
                         debugPrint(out, s);
+                        System.out.print("WA");
                     }
+                    else
+                        System.out.print("AC");
+
+                    System.out.println("\t" + String.valueOf(clk_s) + "ms");
+
                 }
                 System.out.println("Total time:\t" + String.valueOf(times) + " ms");
             }

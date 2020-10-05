@@ -5,11 +5,11 @@ import java.util.Stack;
 
 public class percolation_sol {
 
-	private boolean[][] board;
-	private int[][] id;
-	private int[][] is_travel;
-	private int N, len;
-	private boolean percolated;
+    private boolean[][] board;
+    private int[][] id;
+    private int[][] is_travel;
+    private int N, len;
+    private boolean percolated;
 
     percolation_sol(int n) {
         // init all things
@@ -36,7 +36,7 @@ public class percolation_sol {
         return x * N + y;
     }
 
-	public void open(int row, int col) {
+    public void open(int row, int col) {
         // open site (row, col) if it is not open already
         board[row][col] = true;
         Stack<int[]> stack = new Stack<int[]>(); 
@@ -85,24 +85,24 @@ public class percolation_sol {
                 id[tmp[0]][tmp[1]] = now_min;
             }
         }
-	}
+    }
 
-	public boolean isOpen(int row, int col) {
+    public boolean isOpen(int row, int col) {
         // is site (row, col) open?
         return board[row][col];
-	}
+    }
 
-	public boolean isFull(int row, int col) {
+    public boolean isFull(int row, int col) {
         // is site (row, col) full?
         return isTop(id[row][col]);
-	}
+    }
 
-	public boolean percolates() {
+    public boolean percolates() {
         // does the system percolate?
-		return percolated;
-	}
+        return percolated;
+    }
 
-	public static void main(String[] args) {
+    public static void main(String[] args) {
         // test
         percolation_sol s = new percolation_sol(3);
         s.open(1,1);
