@@ -7,14 +7,14 @@ import java.util.List;
 import java.util.Stack;
 import java.util.HashMap;
 
-public class boardgame_sol {
+class BoardGame {
     private HashMap<List<Integer>, Integer> map;
     private ArrayList<Character> stones;
     private ArrayList<Integer> is_travel;
     private ArrayList<Boolean> is_surrouned;
     private int travel_id;
 
-    public boardgame_sol(int h, int w) {
+    public BoardGame(int h, int w) {
         this.map = new HashMap<List<Integer>, Integer>();
         this.stones = new ArrayList<Character>();
         this.is_travel = new ArrayList<Integer>();
@@ -100,7 +100,7 @@ public class boardgame_sol {
 
     public static void main(String[] args) {
         // test
-        boardgame_sol g = new boardgame_sol(3, 3);
+        BoardGame g = new BoardGame(3, 3);
         g.putStone(new int[]{1}, new int[]{1}, 'O');
         System.out.println(g.surrounded(1, 1));
 

@@ -1,5 +1,6 @@
 import com.google.gson.Gson;
 import com.google.gson.JsonElement;
+import com.google.gson.JsonArray;
 import com.google.gson.GsonBuilder;
 
 import java.io.FileReader;
@@ -8,15 +9,15 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 /*
-dk openjdk:8-slim javac -cp gson.jar:algs4.jar:. percolation_judge.java percolation_sol.java Judger.java
-dk openjdk:8-slim java -cp gson.jar:algs4.jar:. percolation_judge
+dk openjdk:14-slim javac -cp gson.jar:algs4.jar:. boardgame.judge.java boardgame.sol.java Judger.java
+dk openjdk:14-slim java -cp gson.jar:algs4.jar:. Judge
 */
 
-public class percolation_judge extends Judger<List<Boolean>> {
+class Judge extends Judger<List<Boolean>> {
 
     static class Operation {
         boolean answer;
-        int[] args;
+        JsonArray args;
         String func;
         public Operation() {};
     }
@@ -24,12 +25,10 @@ public class percolation_judge extends Judger<List<Boolean>> {
     @Override protected boolean compare(List<Boolean> out, JsonElement s) {
         Gson gson = new Gson();
         Operation[] ops = gson.fromJson(s, Operation[].class);
-
-        for(int i=1, cur=0; i<ops.length; ++i) {
+        int cur = 0;
+        for(int i=1; i<ops.length; ++i) {
             switch(ops[i].func){
-                case "isOpen":
-                case "isFull":
-                case "percolates":
+                case "surrounded":
                     if (ops[i].answer != out.get(cur)){
                         return false;
                     }
@@ -41,27 +40,23 @@ public class percolation_judge extends Judger<List<Boolean>> {
     }
 
     @Override protected List<Boolean> run(JsonElement s) {
+        List<Boolean> output = new ArrayList<Boolean>();
         Gson gson = new Gson();
         Operation[] ops = gson.fromJson(s, Operation[].class);
-        List<Boolean> output = new ArrayList<Boolean>();
-
-        percolation_sol sol = new percolation_sol(ops[0].args[0]);
-        for (int i=1 ; i<ops.length ; i++){
-            switch(ops[i].func){
-                case "open":
-                    sol.open(ops[i].args[0],
-                             ops[i].args[1]);
+        boardgame_sol g = new boardgame_sol(ops[0].args.get(0).getAsInt(),
+                                            ops[0].args.get(1).getAsInt());
+        int[] x, y;
+        int ox, oy;
+        for (int i=1; i<ops.length; i++) {
+            switch(ops[i].func) {
+                case "putStone":
+                    x = gson.fromJson(ops[i].args.get(0), int[].class);
+                    y = gson.fromJson(ops[i].args.get(1), int[].class);
+                    g.putStone(x, y, ops[i].args.get(2).getAsCharacter());
                     break;
-                case "isOpen":
-                    output.add(Boolean.valueOf(sol.isOpen(ops[i].args[0],
-                                                          ops[i].args[1])));
-                    break;
-                case "isFull":
-                    output.add(Boolean.valueOf(sol.isFull(ops[i].args[0],
-                                                          ops[i].args[1])));
-                    break;
-                case "percolates":
-                    output.add(Boolean.valueOf(sol.percolates()));
+                case "surrounded":
+                    output.add(g.surrounded(ops[i].args.get(0).getAsInt(),
+                                            ops[i].args.get(1).getAsInt()));
                     break;
             }
         }
@@ -82,7 +77,7 @@ public class percolation_judge extends Judger<List<Boolean>> {
     };
 
     public static void main(String []args) {
-        percolation_judge j = new percolation_judge();
-        j.judge("percolation.json");
+        boardgame_judge j = new boardgame_judge();
+        j.judge("boardgame.json");
     }
 }
