@@ -6,10 +6,6 @@ import com.google.gson.annotations.SerializedName;
 import java.io.FileReader;
 import java.io.IOException;
 
-/*
-dk openjdk:8-slim javac -cp gson.jar percolation_judge.java  percolation_sol.java
-dk openjdk:8-slim java -cp gson.jar:. percolation_judge
-*/
 
 public abstract class Judger<Tout> {
     protected abstract boolean compare(Tout out, JsonElement s);

@@ -199,3 +199,13 @@ if __name__ == "__main__":
     print(g.surrounded(2, 4))
     # g.flipChess('O')
     # g.flipChess('X')
+
+    print("here")
+    g = BoardGame(3, 3)
+    g.putStone([1], [1], 'O')
+    print(g.surrounded(1, 1))
+    g.putStone([0, 1, 1], [1, 0, 2], 'X')
+    print(g.surrounded(1, 1))
+    g.putStone([2], [1], 'X')
+    print(g.surrounded(1, 1))
+    print(g.surrounded(2, 1))

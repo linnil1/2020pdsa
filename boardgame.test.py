@@ -9,7 +9,7 @@ import imp
 
 
 BoardGame = imp.load_source("BoardGame", 'boardgame.sol.py').BoardGame
-debug = False
+debug = True
 cpu = 32
 
 
@@ -28,6 +28,7 @@ def quesion(n, m):
 
 
     stone = []
+    np.random.seed()
     for optype in tqdm(np.random.choice(2, p=[0.5, 0.5], size=m)):
         if optype == 0:
             # put stone in 10x10 near loc
@@ -242,9 +243,9 @@ cases.append({
     'case': 4,
     'score': 20,
     'data': [
-        *generateQuestion(2, 1000, 2000),
-        *generateQuestion(3, 1001, 3000),
-        *generateQuestion(3, 1001, 4000),
+        *generateQuestion(3, 100, 2000),
+        *generateQuestion(4, 101, 3000),
+        *generateQuestion(3, 101, 4000),
     ]
 })
 
@@ -265,4 +266,6 @@ cases.append({
 # 4000 -> 100ms
 
 json.dump(cases, open("boardgame.json", "w"), cls=MyEncoder)
+# cases = generateQuestion(1, 20, 100)
+# json.dump(cases, open("boardgame.small.json", "w"), cls=MyEncoder, indent=2)
 # pprint(cases)

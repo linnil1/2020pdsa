@@ -22,6 +22,7 @@ def quesion(n):
 
     # number to open
     loc = np.arange(n ** 2)
+    np.random.seed()
     np.random.shuffle(loc)
     now = 0
     for optype in tqdm(np.random.choice(3, p=[0.6, 0.2, 0.2], size=int(n ** 2 * 0.8 / 0.2))):
