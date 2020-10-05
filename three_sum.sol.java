@@ -2,7 +2,8 @@ import java.util.List;
 import java.util.Arrays;
 import java.util.LinkedList;
 
-class three_sum_sol {
+
+class Solution {
     public List<int[]> threeSum(int[] nums) {
         Arrays.sort(nums);
         List<int[]> ans = new LinkedList<>(); 

@@ -14,10 +14,15 @@ public abstract class Judger<Tout> {
 
     protected abstract void debugPrint(Tout out, JsonElement s);
 
+    protected Gson gson;
+
+    public Judger() {
+        this.gson = new Gson();
+    }
+
     protected void judge(String file_json) {
-        Gson gson = new Gson();
         try {
-            Case[] cases = gson.fromJson(new FileReader(file_json), Case[].class);
+            Case[] cases = this.gson.fromJson(new FileReader(file_json), Case[].class);
             for(int i=0; i<cases.length; ++i) {
                 Case c = cases[i];
                 long times = 0;

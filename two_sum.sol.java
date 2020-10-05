@@ -1,7 +1,9 @@
+// Code provided by B05611003
 import java.util.Arrays; 
 import java.util.TreeMap; 
 
-public class two_sum_sol {
+
+class Solution {
     static int[] twoSum(int[] nums, int target) {
         TreeMap<Integer, Integer> map = new TreeMap<Integer, Integer>();
         for (int i=0; i<nums.length; ++i) {

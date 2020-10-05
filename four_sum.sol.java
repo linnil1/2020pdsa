@@ -1,3 +1,4 @@
+// The code is provided by B05611003
 import java.util.Arrays;
 import java.util.List;
 import java.util.HashMap;
@@ -8,7 +9,7 @@ import java.util.Map;
 import java.util.Collections;
 
 
-public class four_sum_sol {
+class Solution {
     public static List<int[]> fourSum(int[] nums, int target) {
         List<int[]> ans = new LinkedList<>();
         int len = nums.length;
