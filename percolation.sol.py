@@ -54,7 +54,7 @@ class Percolation():
         # 0 -> top
         self.set = DisjointSet(N ** 2 + 1)
         self.N = N
-        self.is_precolates = False
+        self.is_percolates = False
 
     def mapID(self, i, j):
         return i * self.N + j + 1
@@ -80,10 +80,10 @@ class Percolation():
         if i == 0:
             self.set.union(id, 0)
 
-        if (not self.is_precolates and 
+        if (not self.is_percolates and 
             self.set.isConnected(id, 0) and 
             self.set.getMax(id) >= len(self.set.groupid) - self.N):
-            self.is_precolates = True
+            self.is_percolates = True
 
     def isOpen(self, i :int, j :int) -> bool:
         """ Is site (row i, column j) open? """
@@ -96,9 +96,9 @@ class Percolation():
             raise ValueError
         return self.set.isConnected(0, id)
         
-    def precolates(self) -> bool:
+    def percolates(self) -> bool:
         """ Does the system percolate? """
-        return self.is_precolates
+        return self.is_percolates
 
     def __str__(self):
         return "\n".join([
@@ -110,23 +110,23 @@ class Percolation():
 if __name__ == "__main__":
     s = Percolation(3)
     s.open(1,1)
-    print(s)
-    print(s.set.groupid)
+    # print(s)
+    # print(s.set.groupid)
     print(s.isFull(1, 1))
-    print(s.precolates())
+    print(s.percolates())
     s.open(0,1)
     s.open(2,0)
-    print(s)
-    print(s.set.groupid)
+    # print(s)
+    # print(s.set.groupid)
     print(s.isFull(1, 1))
     print(s.isFull(0, 1))
     print(s.isFull(2, 0))
-    print(s.precolates())
+    print(s.percolates())
     s.open(1,2)
     s.open(2,2)
-    print(s)
-    print(s.set.groupid)
+    # print(s)
+    # print(s.set.groupid)
     print(s.isFull(1, 1))
     print(s.isFull(0, 1))
     print(s.isFull(2, 0))
-    print(s.precolates())
+    print(s.percolates())

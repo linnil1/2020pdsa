@@ -33,8 +33,9 @@ public abstract class Judger<Tout> {
                     System.out.println("\tSample" + String.valueOf(j) + ":\t" 
                                        + String.valueOf(clk_s) + "ms");
 
-                    if (!compare(out, s))
+                    if (!compare(out, s)) {
                         debugPrint(out, s);
+                    }
                 }
                 System.out.println("Total time:\t" + String.valueOf(times) + " ms");
             }

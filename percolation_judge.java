@@ -1,5 +1,6 @@
 import com.google.gson.Gson;
 import com.google.gson.JsonElement;
+import com.google.gson.GsonBuilder;
 
 import java.io.FileReader;
 import java.io.IOException;
@@ -28,6 +29,7 @@ public class percolation_judge extends Judger<List<Boolean>> {
             switch(ops[i].func){
                 case "isOpen":
                 case "isFull":
+                case "percolates":
                     if (ops[i].answer != out.get(cur)){
                         return false;
                     }
@@ -66,7 +68,18 @@ public class percolation_judge extends Judger<List<Boolean>> {
         return output;
     }
 
-    @Override protected void debugPrint(List<Boolean> out, JsonElement s) {} ; 
+    @Override protected void debugPrint(List<Boolean> out, JsonElement s) {
+        System.out.print("<");
+        for(Boolean b: out) {
+            System.out.print(b);
+            System.out.print(" ");
+        }
+
+        System.out.println("");
+        System.out.println(">" + s.toString());
+        // Gson gson = new GsonBuilder().setPrettyPrinting().create();
+        // System.out.println(">" + gson.toJson(s));
+    };
 
     public static void main(String []args) {
         percolation_judge j = new percolation_judge();

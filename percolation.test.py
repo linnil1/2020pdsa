@@ -36,9 +36,9 @@ def quesion(n):
             })
         elif optype == 1:
             ops.append({
-                'func': 'precolates',
+                'func': 'percolates',
                 'args': [],
-                'answer': s.precolates()
+                'answer': s.percolates()
             })
         elif optype == 2:
             if now >= len(loc):
@@ -108,35 +108,35 @@ cases.append({
     'data': [
         # 0
         [{'func': 'init',       'args': [1],    'answer': None},
-         {'func': 'precolates', 'args': [],     'answer': False},
+         {'func': 'percolates', 'args': [],     'answer': False},
          {'func': 'open',       'args': [0, 0], 'answer': None},
          {'func': 'isFull',     'args': [0, 0], 'answer': True},
-         {'func': 'precolates', 'args': [],     'answer': True}],
+         {'func': 'percolates', 'args': [],     'answer': True}],
 
         # 1
         [{'func': 'init',       'args': [1],    'answer': None},
-         {'func': 'precolates', 'args': [],     'answer': False},
+         {'func': 'percolates', 'args': [],     'answer': False},
          {'func': 'open',       'args': [0, 0], 'answer': None},
-         {'func': 'precolates', 'args': [],     'answer': True},
+         {'func': 'percolates', 'args': [],     'answer': True},
          {'func': 'isFull',     'args': [0, 0], 'answer': True}],
 
         # 2
         [{'func': 'init',       'args': [3],    'answer': None},
-         {'func': 'precolates', 'args': [],     'answer': False},
+         {'func': 'percolates', 'args': [],     'answer': False},
          {'func': 'open',       'args': [1, 1], 'answer': None},
-         {'func': 'precolates', 'args': [],     'answer': False},
+         {'func': 'percolates', 'args': [],     'answer': False},
          {'func': 'isFull',     'args': [1, 1], 'answer': False},
          {'func': 'open',       'args': [0, 1], 'answer': None},
          {'func': 'isFull',     'args': [1, 1], 'answer': True},
          {'func': 'isFull',     'args': [0, 1], 'answer': True},
-         {'func': 'precolates', 'args': [],     'answer': False},
+         {'func': 'percolates', 'args': [],     'answer': False},
          {'func': 'open',       'args': [2, 0], 'answer': None},
          {'func': 'isFull',     'args': [2, 0], 'answer': False},
-         {'func': 'precolates', 'args': [],     'answer': False},
+         {'func': 'percolates', 'args': [],     'answer': False},
          {'func': 'isFull',     'args': [1, 1], 'answer': True},
          {'func': 'open',       'args': [2, 1], 'answer': None},
          {'func': 'isFull',     'args': [2, 1], 'answer': True},
-         {'func': 'precolates', 'args': [],     'answer': True},
+         {'func': 'percolates', 'args': [],     'answer': True},
          {'func': 'isFull',     'args': [2, 0], 'answer': True}]
     ]
 })
@@ -154,11 +154,11 @@ cases.append({
          {'func': 'open',       'args': [0, 1], 'answer': None},
          {'func': 'open',       'args': [2, 0], 'answer': None},
          {'func': 'open',       'args': [2, 2], 'answer': None},
-         {'func': 'precolates', 'args': [],     'answer': False},
+         {'func': 'percolates', 'args': [],     'answer': False},
          {'func': 'open',       'args': [1, 2], 'answer': None},
          {'func': 'isFull',     'args': [2, 0], 'answer': False},
          {'func': 'isFull',     'args': [2, 2], 'answer': True},
-         {'func': 'precolates', 'args': [],     'answer': True},
+         {'func': 'percolates', 'args': [],     'answer': True},
          {'func': 'isFull',     'args': [2, 0], 'answer': False}],
 
         # 1
@@ -175,7 +175,7 @@ cases.append({
          {'func': 'open',       'args': [2, 0], 'answer': None},
          {'func': 'open',       'args': [2, 1], 'answer': None},
          {'func': 'open',       'args': [2, 2], 'answer': None},
-         {'func': 'precolates', 'args': [],     'answer': True},
+         {'func': 'percolates', 'args': [],     'answer': True},
          {'func': 'isFull',     'args': [1, 1], 'answer': True},
          {'func': 'isFull',     'args': [2, 2], 'answer': True},
          {'func': 'isFull',     'args': [0, 0], 'answer': True}],
@@ -205,12 +205,12 @@ cases.append({
          {'func': 'open',       'args': [3, 4], 'answer': None},
          {'func': 'open',       'args': [2, 2], 'answer': None},
          {'func': 'isFull',     'args': [2, 2], 'answer': False},
-         {'func': 'precolates', 'args': [],     'answer': True},
+         {'func': 'percolates', 'args': [],     'answer': True},
          {'func': 'isFull',     'args': [4, 2], 'answer': True},
          {'func': 'isFull',     'args': [2, 2], 'answer': False},
          {'func': 'open',       'args': [2, 1], 'answer': None},
          {'func': 'isFull',     'args': [2, 2], 'answer': True},
-         {'func': 'precolates', 'args': [],     'answer': True}],
+         {'func': 'percolates', 'args': [],     'answer': True}],
 
         # 3
         # xx
@@ -218,10 +218,10 @@ cases.append({
         [{'func': 'init',       'args': [2],    'answer': None},
          {'func': 'open',       'args': [1, 0], 'answer': None},
          {'func': 'open',       'args': [1, 1], 'answer': None},
-         {'func': 'precolates', 'args': [],     'answer': False},
+         {'func': 'percolates', 'args': [],     'answer': False},
          {'func': 'isFull',     'args': [1, 0], 'answer': False},
          {'func': 'isFull',     'args': [1, 1], 'answer': False},
-         {'func': 'precolates', 'args': [],     'answer': False}],
+         {'func': 'percolates', 'args': [],     'answer': False}],
 
         # 4
         # oxo
@@ -233,12 +233,12 @@ cases.append({
          {'func': 'open',       'args': [2, 2], 'answer': None},
          {'func': 'open',       'args': [2, 0], 'answer': None},
          {'func': 'open',       'args': [0, 2], 'answer': None},
-         {'func': 'precolates', 'args': [],     'answer': False},
+         {'func': 'percolates', 'args': [],     'answer': False},
          {'func': 'isFull',     'args': [1, 1], 'answer': False},
          {'func': 'isFull',     'args': [2, 2], 'answer': False},
          {'func': 'isFull',     'args': [2, 0], 'answer': False},
          {'func': 'isFull',     'args': [0, 2], 'answer': True},
-         {'func': 'precolates', 'args': [],     'answer': False}],
+         {'func': 'percolates', 'args': [],     'answer': False}],
 
         # 5
         # xxxxxo
@@ -251,24 +251,24 @@ cases.append({
         [{'func': 'init',      'args': [49],    'answer': None},
          *long_road(49),
          *[{'func': 'isFull',  'args': [47, 48], 'answer': False} for _ in range(10000)],
-         *[{'func': 'precolates',  'args': [], 'answer': False} for _ in range(10000)],
+         *[{'func': 'percolates',  'args': [], 'answer': False} for _ in range(10000)],
          {'func': 'open',       'args': [0, 0], 'answer': None},
          *[{'func': 'isFull',  'args': [47, 48], 'answer': True} for _ in range(10000)],
-         *[{'func': 'precolates',  'args': [], 'answer': False} for _ in range(10000)],
+         *[{'func': 'percolates',  'args': [], 'answer': False} for _ in range(10000)],
          {'func': 'open',       'args': [48, 48], 'answer': None},
          *[{'func': 'isFull',  'args': [47, 48], 'answer': True} for _ in range(10000)],
-         *[{'func': 'precolates',  'args': [], 'answer': True} for _ in range(10000)]],
+         *[{'func': 'percolates',  'args': [], 'answer': True} for _ in range(10000)]],
 
         [{'func': 'init',      'args': [49],    'answer': None},
          *long_road(49),
          *[{'func': 'isFull',  'args': [47, 48], 'answer': False} for _ in range(10000)],
-         *[{'func': 'precolates',  'args': [], 'answer': False} for _ in range(10000)],
+         *[{'func': 'percolates',  'args': [], 'answer': False} for _ in range(10000)],
          {'func': 'open',       'args': [48, 48], 'answer': None},
          *[{'func': 'isFull',  'args': [47, 48], 'answer': False} for _ in range(10000)],
-         *[{'func': 'precolates',  'args': [], 'answer': False} for _ in range(10000)],
+         *[{'func': 'percolates',  'args': [], 'answer': False} for _ in range(10000)],
          {'func': 'open',       'args': [0, 0], 'answer': None},
          *[{'func': 'isFull',  'args': [47, 48], 'answer': True} for _ in range(10000)],
-         *[{'func': 'precolates',  'args': [], 'answer': True} for _ in range(10000)]],
+         *[{'func': 'percolates',  'args': [], 'answer': True} for _ in range(10000)]],
     ]
 })
 
