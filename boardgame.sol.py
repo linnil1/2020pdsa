@@ -27,8 +27,7 @@ class DisjointSet():
         return id
 
     def surroundUpdate(self, a: int, num: int):
-        """ Update no_surround_num of the group by adding num and 
-            Merge surround o and X together """
+        """ Update no_surround_num of the group by adding num """
         a = self.find(a)
         self.no_surround_num[a] += num
 

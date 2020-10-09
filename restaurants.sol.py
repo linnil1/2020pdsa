@@ -52,13 +52,15 @@ class Restaurants(object):
         """
         # return []
         ids = []
-        """
         for r in range(min_rate, 6):
             pos_end = self.binary(self.rate[r], self.rate[r + 1], max_price)
             # print(self.rate[r], pos_end)
             ids.extend(range(self.rate[r], pos_end))
-        """
-        ids = [i for i, res in enumerate(self.restaurants) if res[1] >= min_rate and res[2] <= max_price]
+
+        # ids = [i for i, res in enumerate(self.restaurants) if res[1] >= min_rate and res[2] <= max_price]
+        # ids = [i + self.rate[min_rate] for i, res in enumerate(self.restaurants[self.rate[min_rate]:]) if res[2] <= max_price]
+        # ids = filter(lambda res: res[2] <= max_price, self.restaurants[self.rate[min_rate]:])
+        # return [i[0] for i in sorted(ids, key=lambda res: (res[3], -res[0]))]
 
         ids = sorted(ids, key=lambda i: (self.restaurants[i][3], -self.restaurants[i][0]))
         return [self.restaurants[i][0] for i in ids]

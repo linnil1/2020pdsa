@@ -31,19 +31,15 @@ class Judger:
                 now['time'] = (time.time() - clk_s) * 1000
                 now["status"] = 'RE'
                 output.append(now)
+                lbjtdln5
                 continue
 
             # compare
             if not self.compare(out, sample):
-                # self.debugPrint(sample)
                 now['status'] = "WA"
-                self.debugPrint('<', sample['answer'])
-                self.debugPrint('>', out)
             else:
                 now['status'] = "AC"
 
-            # if case['case'] <= 2:
-            #     self.debugPrint(sample)
             output.append(now)
 
         return output

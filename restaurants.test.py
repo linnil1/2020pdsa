@@ -32,6 +32,9 @@ def quesion(n, price_lim, distance_lim, query_lim, max_out, small_price=False):
     # number to open
     if small_price:
         price_lim = price_lim // 100
+    else:
+        # expect 0.1 * N output per filter
+        price_lim = price_lim // 3
     price = np.random.choice(price_lim, size=query_lim)
     rate = np.random.choice(range(1, 6), size=query_lim)
     all_ans_len = 0
@@ -127,8 +130,8 @@ cases.append({
     'score': 20,
     'data': [
         # N, restaurants_len, price, distance, query, max_out
-        *generateQuestion(1, 10000, 100,     1000000, 100000, 10000 * 99),
-        *generateQuestion(1, 10000, 1000000, 1000000, 100000, 10000 * 99),
+        *generateQuestion(1, 10000, 100,     1000000, 1000, 10000 * 99),
+        *generateQuestion(1, 10000, 1000000, 1000000, 1000, 10000 * 99),
     ]
 })
 
@@ -138,9 +141,13 @@ cases.append({
     'score': 20,
     'data': [
         # N, restaurants_len, price, distance, query, max_out
-        *generateQuestion(1, 100000, 100000, 1000000, 100000, 100000 * 9),
+        *generateQuestion(1, 130000, 100000, 1000000, 1000, 130000 * 9),
     ]
 })
+
+# 100000, 100000/3, 100000 * 9 -> 1400ms
+# 150000, 100000/3, 150000 * 9 -> 2400ms
+# 130000, 100000/3, 130000 * 9 -> 2000ms
 
 # 1000, 100, 1000 * 99 ->  80ms
 # 10000 100000 1000*99 -> 1000ms

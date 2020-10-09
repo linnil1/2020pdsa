@@ -15,9 +15,25 @@ public abstract class Judger<Tout> {
     protected abstract void debugPrint(Tout out, JsonElement s);
 
     protected Gson gson;
+    protected long runtime_acc;
+    protected long runtime_from;
 
     public Judger() {
         this.gson = new Gson();
+    }
+
+    protected void initTime() {
+        this.runtime_acc = 0;
+        this.resetTime();
+    }
+
+    protected void resetTime() {
+        this.runtime_from = System.currentTimeMillis();
+    }
+
+    protected void updateTime() {
+        this.runtime_acc += System.currentTimeMillis() - this.runtime_from;
+        this.resetTime();
     }
 
     protected void judge(String file_json) {
@@ -30,11 +46,10 @@ public abstract class Judger<Tout> {
                 System.out.println("Case: " + String.valueOf(c.case_name));
                 for(int j=0; j<c.data.size(); ++j) {
                     JsonElement s = c.data.get(j);
-                    long clk_s = System.currentTimeMillis();
-                    Tout out = run(s);
 
-                    clk_s = System.currentTimeMillis() - clk_s;
-                    times += clk_s;
+                    this.initTime();
+                    Tout out = run(s);
+                    this.updateTime();
 
                     System.out.print("\tSample" + String.valueOf(j) + ":\t");
                     if (!compare(out, s)) {
@@ -44,7 +59,8 @@ public abstract class Judger<Tout> {
                     else
                         System.out.print("AC");
 
-                    System.out.println("\t" + String.valueOf(clk_s) + "ms");
+                    times += this.runtime_acc;
+                    System.out.println("\t" + String.valueOf(this.runtime_acc) + "ms");
 
                 }
                 System.out.println("Total time:\t" + String.valueOf(times) + " ms");

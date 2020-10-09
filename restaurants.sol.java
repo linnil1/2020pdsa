@@ -62,12 +62,12 @@ class Restaurants {
     }
 
     public static void main(String[] args) {
+        // test
         List<int[]> restaurants = new ArrayList<int[]>();
         restaurants.add(new int[]{20, 1, 20, 12});
         restaurants.add(new int[]{15, 3, 20, 11});
         restaurants.add(new int[]{19, 4, 20, 12});
         restaurants.add(new int[]{18, 5, 20, 11});
-        // test
         Restaurants g = new Restaurants(restaurants);
         System.out.println(Arrays.toString(g.filter(25, 3)));
         System.out.println(Arrays.toString(g.filter(25, 4)));
@@ -75,4 +75,3 @@ class Restaurants {
         System.out.println(Arrays.toString(g.filter(10, 1)));
     }
 }
-
