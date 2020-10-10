@@ -12,6 +12,12 @@ dk openjdk:14-slim java -cp gson.jar:algs4.jar:. Judge
 
 class Judge extends Judger<List<int[]>> {
 
+    public Judge(boolean debug, boolean clean_after_read) {
+        super(debug);
+        this.file_path = "restaurants.json";
+        this.clean_after_read = clean_after_read;
+    }
+
     static class Operation {
         JsonElement answer;
         JsonArray args;
@@ -19,8 +25,8 @@ class Judge extends Judger<List<int[]>> {
         public Operation() {};
     }
 
-    @Override protected boolean compare(List<int[]> out, JsonElement s) {
-        Operation[] ops = this.gson.fromJson(s, Operation[].class);
+    @Override protected boolean compare(List<int[]> out, JsonElement ele) {
+        Operation[] ops = this.gson.fromJson(ele, Operation[].class);
         int cur = 0;
         for(int i=1; i<ops.length; ++i) {
             switch(ops[i].func){
@@ -35,8 +41,8 @@ class Judge extends Judger<List<int[]>> {
         return true;
     }
 
-    @Override protected List<int[]> run(JsonElement s) {
-        Operation[] ops = this.gson.fromJson(s, Operation[].class);
+    @Override protected List<int[]> run(JsonElement ele) {
+        Operation[] ops = this.gson.fromJson(ele, Operation[].class);
         List<int[]>[] restaurants = this.gson.fromJson(ops[0].args, new TypeToken<List<int[]>[]>(){}.getType());
         List<int[]> output = new ArrayList<int[]>();
 
@@ -59,16 +65,14 @@ class Judge extends Judger<List<int[]>> {
         return output;
     }
 
-    @Override protected void debugPrint(List<int[]> out, JsonElement s) {
-        /*
+    @Override protected void debugPrint(List<int[]> out, JsonElement ele) {
         for (int[] a: out)
             System.out.println("<" + Arrays.toString(a));
-        System.out.println(">" + gson.toJson(s));
-        */
+        System.out.println(">" + gson.toJson(ele));
     };
 
     public static void main(String []args) {
-        Judge j = new Judge();
-        j.judge("restaurants.json");
+        Judge j = new Judge(true, false);
+        j.judge(args);
     }
 }

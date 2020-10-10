@@ -45,6 +45,7 @@ class Judge extends Judger<List<Boolean>> {
         Operation[] ops = gson.fromJson(s, Operation[].class);
         List<Boolean> output = new ArrayList<Boolean>();
 
+        this.resetTime();
         Percolation sol = new Percolation(ops[0].args[0]);
         for (int i=1 ; i<ops.length ; i++){
             switch(ops[i].func){

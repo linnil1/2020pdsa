@@ -1,12 +1,16 @@
 from Judger import Judger
-import imp
+import sys
 
 
 class Tester(Judger): 
-    def __init__(self):
-        super().__init__("restaurants.json", debug=True)
+    def __init__(self, debug=True):
+        if debug:
+            super().__init__("restaurants.json")
+        else:
+            super().__init__(sys.argv[1], debug=False, save=True, clean_after_read=True)
 
     def run(self, sample):
+        import imp
         Restaurants = imp.load_source("Restaurants", 'restaurants.sol.py').Restaurants
         s = Restaurants(*sample[0]['args'])
         out = []
@@ -26,5 +30,4 @@ class Tester(Judger):
 
 
 Tester().judge()
-#sample={'nums':[-1,0,1,2,3,4],'target':2}
-#print(Tester().run(sample))
+# Tester(debug=True).judge()

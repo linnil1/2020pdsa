@@ -43,8 +43,10 @@ class Judge extends Judger<List<Boolean>> {
         List<Boolean> output = new ArrayList<Boolean>();
         Gson gson = new Gson();
         Operation[] ops = gson.fromJson(s, Operation[].class);
-        boardgame_sol g = new boardgame_sol(ops[0].args.get(0).getAsInt(),
-                                            ops[0].args.get(1).getAsInt());
+        this.resetTime();
+        BoardGame g = new BoardGame(ops[0].args.get(0).getAsInt(),
+                                    ops[0].args.get(1).getAsInt());
+        this.updateTime();
         int[] x, y;
         int ox, oy;
         for (int i=1; i<ops.length; i++) {
@@ -52,11 +54,15 @@ class Judge extends Judger<List<Boolean>> {
                 case "putStone":
                     x = gson.fromJson(ops[i].args.get(0), int[].class);
                     y = gson.fromJson(ops[i].args.get(1), int[].class);
+                    this.resetTime();
                     g.putStone(x, y, ops[i].args.get(2).getAsCharacter());
+                    this.updateTime();
                     break;
                 case "surrounded":
+                    this.resetTime();
                     output.add(g.surrounded(ops[i].args.get(0).getAsInt(),
                                             ops[i].args.get(1).getAsInt()));
+                    this.updateTime();
                     break;
             }
         }
@@ -77,7 +83,7 @@ class Judge extends Judger<List<Boolean>> {
     };
 
     public static void main(String []args) {
-        boardgame_judge j = new boardgame_judge();
+        Judge j = new Judge();
         j.judge("boardgame.json");
     }
 }

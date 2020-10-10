@@ -104,7 +104,7 @@ class Percolation {
 
     public static void main(String[] args) {
         // test
-        percolation_sol s = new percolation_sol(3);
+        Percolation s = new Percolation(3);
         s.open(1,1);
         System.out.println(s.isFull(1, 1));
         System.out.println(s.percolates());
