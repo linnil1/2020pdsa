@@ -22,6 +22,8 @@ class Tester(Judger):
 
     def compare(self, out, sample):
         for i in range(len(out)):
+            if type(out[i]) is not list:
+                return False
             if out[i] != sample[1 + i]['answer']:
                 # print('<', out)
                 # print('>', sample[1 + i]['answer'])
@@ -29,5 +31,5 @@ class Tester(Judger):
         return True
 
 
-Tester().judge()
+Tester(debug=True).judge()
 # Tester(debug=True).judge()

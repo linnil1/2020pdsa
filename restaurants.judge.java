@@ -55,7 +55,8 @@ class Judge extends Judger<List<int[]>> {
                     this.resetTime();
                     output.add(
                         sol.filter(ops[i].args.get(0).getAsInt(),
-                                   ops[i].args.get(1).getAsInt())
+                                   ops[i].args.get(1).getAsInt(),
+                                   ops[i].args.get(2).getAsInt())
                     );
                     this.updateTime();
                     break;
@@ -72,6 +73,7 @@ class Judge extends Judger<List<int[]>> {
     };
 
     public static void main(String []args) {
+        // Judge j = new Judge(false, true);
         Judge j = new Judge(true, false);
         j.judge(args);
     }

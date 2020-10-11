@@ -28,7 +28,7 @@ class Restaurants(object):
     def binary(self, s, e, p):
         while s < e:
             mid = (s + e) // 2
-            if self.restaurants[mid][2] > p:
+            if self.restaurants[mid][2] >= p:
                 e = mid
             elif mid == s:
                 break
@@ -37,12 +37,12 @@ class Restaurants(object):
         return e
 
 
-    def filter(self, max_price :int, min_rate: int):
+    def filter(self, min_price: int, max_price :int, min_rate: int):
         """
         Filter the restaurants list
 
         You should output the id of restaurants that meets the condition:
-        `price <= max_price` and `rate >= min_rate`.
+        `min_price <= price <= max_price` and `rate >= min_rate`.
 
         The output should be in the increasing order of distance, if the distance is same,
         order restaurants by id from highest to lowest.
@@ -53,9 +53,14 @@ class Restaurants(object):
         # return []
         ids = []
         for r in range(min_rate, 6):
-            pos_end = self.binary(self.rate[r], self.rate[r + 1], max_price)
+            pos_start = self.binary(self.rate[r], self.rate[r + 1], min_price)
             # print(self.rate[r], pos_end)
-            ids.extend(range(self.rate[r], pos_end))
+            v = pos_start
+            for i in range(pos_start, self.rate[r + 1]):
+                if self.restaurants[i][2] <= max_price:
+                    ids.append(i)
+                else:
+                    break
 
         # ids = [i for i, res in enumerate(self.restaurants) if res[1] >= min_rate and res[2] <= max_price]
         # ids = [i + self.rate[min_rate] for i, res in enumerate(self.restaurants[self.rate[min_rate]:]) if res[2] <= max_price]
@@ -70,11 +75,13 @@ if __name__ == "__main__":
     r = Restaurants([
         # id, rate, price, distance
         [20, 1, 20, 12],
-        [15, 3, 20, 11],
-        [19, 5, 20, 12],
+        [15, 3, 19, 11],
+        [19, 5, 19, 12],
         [18, 5, 20, 11],
         ])
-    print(r.filter(25, 3))
-    print(r.filter(25, 4))
-    print(r.filter(20, 1))
-    print(r.filter(10, 1))
+    print(r.filter(0, 25, 3))
+    print(r.filter(0, 25, 4))
+    print(r.filter(0, 20, 1))
+    print(r.filter(0, 10, 1))
+    print(r.filter(0, 19, 1))
+    print(r.filter(20, 20, 1))

@@ -26,13 +26,14 @@ class Restaurants {
         });
     }
 
-    public int[] filter(int max_price, int min_rate) {
+    public int[] filter(int min_price, int max_price, int min_rate) {
         // return new int[]{};
         List<Integer> inds = new ArrayList<Integer>();
         // for(int i=0; i<this.restaurants.size(); ++i)
         //     if (this.restaurants.get(i)[1] >= min_rate && this.restaurants.get(i)[2] <= max_price)
         for(int i=0; i<this.restaurants.size() && this.restaurants.get(i)[2] <= max_price; ++i)
-            if (this.restaurants.get(i)[1] >= min_rate)
+            if (this.restaurants.get(i)[1] >= min_rate &&
+                this.restaurants.get(i)[2] >= min_price)
                 inds.add(i);
 
         inds.sort(new Comparator<Integer>() {
@@ -69,9 +70,9 @@ class Restaurants {
         restaurants.add(new int[]{19, 4, 20, 12});
         restaurants.add(new int[]{18, 5, 20, 11});
         Restaurants g = new Restaurants(restaurants);
-        System.out.println(Arrays.toString(g.filter(25, 3)));
-        System.out.println(Arrays.toString(g.filter(25, 4)));
-        System.out.println(Arrays.toString(g.filter(20, 1)));
-        System.out.println(Arrays.toString(g.filter(10, 1)));
+        System.out.println(Arrays.toString(g.filter(0, 25, 3)));
+        System.out.println(Arrays.toString(g.filter(0, 25, 4)));
+        System.out.println(Arrays.toString(g.filter(0, 20, 1)));
+        System.out.println(Arrays.toString(g.filter(0, 10, 1)));
     }
 }
