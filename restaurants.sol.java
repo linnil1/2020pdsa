@@ -4,75 +4,106 @@ import java.util.Arrays;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Comparator;
-import java.util.Collection;
+import java.util.Collections;
 
-class Restaurants {
-    private List<int[]> restaurants;
-
-    public Restaurants(List<int[]> restaurants) {
-        this.restaurants = restaurants;
-        this.restaurants.sort(new Comparator<int[]>() {
-            @Override
-            public int compare(int[] a, int[] b) {
-                // id(int), rate(int), price(int), distance(int)
-                if (a[2] != b[2]) {
-                    if (a[2] < b[2])
-                        return -1;
-                    else if (a[2] > b[2])
-                        return 1;
-                }
-                return 0;
-            }
-        });
+class Restaurant implements Comparable<Restaurant> {
+    public int id, rate, price, distance;
+    Restaurant(int id, int rate, int price, int distance) {
+        this.id = id;
+        this.rate = rate;
+        this.price = price;
+        this.distance = distance;
     }
 
-    public int[] filter(int min_price, int max_price, int min_rate) {
-        // return new int[]{};
-        List<Integer> inds = new ArrayList<Integer>();
-        // for(int i=0; i<this.restaurants.size(); ++i)
-        //     if (this.restaurants.get(i)[1] >= min_rate && this.restaurants.get(i)[2] <= max_price)
-        for(int i=0; i<this.restaurants.size() && this.restaurants.get(i)[2] <= max_price; ++i)
-            if (this.restaurants.get(i)[1] >= min_rate &&
-                this.restaurants.get(i)[2] >= min_price)
-                inds.add(i);
+    public int getID() {
+        return this.id;
+    }
 
-        inds.sort(new Comparator<Integer>() {
-            @Override
-            public int compare(Integer i, Integer j) {
-                // id(int), rate(int), price(int), distance(int)
-                int[] a = restaurants.get(i);
-                int[] b = restaurants.get(j);
-                if (a[3] != b[3]) {
-                    if (a[3] < b[3])
-                        return -1;
-                    else if (a[3] > b[3])
-                        return 1;
-                }
-                else if (a[0] > b[0])
+    @Override
+    public int compareTo(Restaurant b) {
+        int i = this.price * this.distance *    b.rate,
+            j =    b.price *    b.distance * this.rate;
+        if (i < j)
+            return -1;
+        if (i > j)
+            return 1;
+        return 0;
+    }
+
+    public static class ComparatorOfDistance implements Comparator<Restaurant> {
+        public int compare(Restaurant a, Restaurant b) {
+            if (a.distance != b.distance) {
+                if (a.distance < b.distance)
                     return -1;
-                else if (a[0] < b[0])
+                else
                     return 1;
-                return 0;
             }
-        });
+            if (a.id > b.id)
+                return -1;
+            else
+                return 1;
+        }
+    }
 
-        int[] ids = new int[inds.size()];
-        for(int i=0; i<inds.size(); ++i)
-            ids[i] = this.restaurants.get(inds.get(i))[0];
-        return ids;
+    public static class ComparatorOfRatePrice implements Comparator<Restaurant> {
+        public int compare(Restaurant a, Restaurant b) {
+            if (a.price != b.price) {
+                if (a.price < b.price)
+                    return -1;
+                else
+                    return 1;
+            }
+            return 0;
+        }
+    }
+}
+
+
+class Restaurants {
+    private List<Restaurant> restaurants;
+
+    public Restaurants(List<Restaurant> restaurants) {
+        this.restaurants = restaurants;
+        this.restaurants.sort(new Restaurant.ComparatorOfRatePrice());
+    }
+
+    public List<Restaurant> filter(int min_price, int max_price, int min_rate) {
+        List<Restaurant> inds = new ArrayList<Restaurant>();
+        for(Restaurant r: this.restaurants) {
+            if (r.price > max_price)
+                break;
+            if (r.rate >= min_rate &&
+                r.price >= min_price)
+                inds.add(r);
+        }
+        return inds;
     }
 
     public static void main(String[] args) {
         // test
-        List<int[]> restaurants = new ArrayList<int[]>();
-        restaurants.add(new int[]{20, 1, 20, 12});
-        restaurants.add(new int[]{15, 3, 20, 11});
-        restaurants.add(new int[]{19, 4, 20, 12});
-        restaurants.add(new int[]{18, 5, 20, 11});
-        Restaurants g = new Restaurants(restaurants);
-        System.out.println(Arrays.toString(g.filter(0, 25, 3)));
-        System.out.println(Arrays.toString(g.filter(0, 25, 4)));
-        System.out.println(Arrays.toString(g.filter(0, 20, 1)));
-        System.out.println(Arrays.toString(g.filter(0, 10, 1)));
+        List<Restaurant> restaurants = new ArrayList<Restaurant>();
+        restaurants.add(new Restaurant(3, 1, 20, 12));
+        restaurants.add(new Restaurant(0, 3, 20, 11));
+        restaurants.add(new Restaurant(2, 4, 20, 12));
+        restaurants.add(new Restaurant(1, 5, 20, 11));
+        Restaurants r = new Restaurants(restaurants);
+        List<Restaurant> a = r.filter(0, 20, 1);
+        for (Restaurant i: a) {
+            System.out.print(i.getID());
+            System.out.print(" ");
+        }
+        System.out.println(" ");
+        Collections.sort(a);
+        for (Restaurant i: a) {
+            System.out.print(i.getID());
+            System.out.print(" ");
+        }
+        System.out.println(" ");
+        a.sort(new Restaurant.ComparatorOfDistance());
+        for (Restaurant i: a) {
+            System.out.print(i.getID());
+            System.out.print(" ");
+        }
+        System.out.println(" ");
     }
 }
