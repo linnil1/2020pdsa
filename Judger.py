@@ -11,6 +11,19 @@ class Judger:
         self.debug = debug
         self.save = save
         self.clean_after_read = clean_after_read
+        self.runtime_acc = 0
+        self.runtime_from = 0;
+
+    def initTime(self):
+        self.runtime_acc = 0
+        self.resetTime()
+
+    def resetTime(self):
+        self.runtime_from = time.time()
+
+    def updateTime(self):
+        self.runtime_acc += (time.time() - self.runtime_from) * 1000
+        self.resetTime();
 
     def debugPrint(self, *args, pretty=False):
         if self.debug:
@@ -26,14 +39,17 @@ class Judger:
             now = {}
 
             # main run
-            clk_s = time.time()
+            self.initTime()
             try:
                 out = self.run(sample)
-                now['time'] = (time.time() - clk_s) * 1000
+                self.updateTime()
+                now['time'] = self.runtime_acc
             except Exception as e:
-                now['time'] = (time.time() - clk_s) * 1000
+                self.updateTime()
+                now['time'] = self.runtime_acc
                 now["status"] = 'RE'
                 status.append(now)
+                lkfudj
                 continue
 
             # compare
