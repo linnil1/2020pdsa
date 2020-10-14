@@ -1,34 +1,39 @@
 import functools
-from typing import List, NewType
+from typing import List
+
 
 class Restaurant(object):
-    def __init__(self, id, rate, price, distance):
+    def __init__(self, id :int, rate :int, price :int, distance :int):
         self.id = id
         self.rate = rate
         self.price = price
         self.distance = distance
 
-    def __lt__(self, b):
+    def getID(self) -> int:
+        return self.id
+
+    def __lt__(self, b) -> bool:
         return self.price * self.distance *    b.rate < \
                   b.price *    b.distance * self.rate
 
     @staticmethod
-    def comparatorOfDistance(a, b):
+    def comparator1(a, b) -> int:
         """
-        Compare two restaurants by restaurant's id.
+        Compare two restaurants by restaurant object
 
-        The output should be in the increasing order of distance, if the distance is same,
+        The output should be in the increasing order of rate, if the rate is same,
+        sorted by increasing order by distance, if both are same,
         order restaurants by id from highest to lowest.
 
         Parameters:
           a(Restaurant): The restaurant object
           b(Restaurant): The restaurant object
-        
+
         Returns:
             result(int): -1 for restaurant a has smaller order, 1 for restaurant b has smaller order, 0 for equal.
         """
-        a = (a.distance, -a.id)
-        b = (b.distance, -b.id)
+        a = (a.rate, a.distance, -a.id)
+        b = (b.rate, b.distance, -b.id)
         if a < b:
             return -1
         elif a > b:
@@ -75,7 +80,6 @@ class Restaurants(object):
                 s = mid
         return e
 
-
     def filter(self, min_price: int, max_price :int, min_rate: int):
         """
         Filter the restaurants list
@@ -87,29 +91,55 @@ class Restaurants(object):
             restaurants (List[Restaurant]): The list of restaurant object.
         """
         # return []
-        rests = []
+        ids = []
         for r in range(min_rate, 6):
             pos_start = self.binary(self.rate[r], self.rate[r + 1], min_price)
             for i in range(pos_start, self.rate[r + 1]):
                 if self.restaurants[i].price <= max_price:
-                    rests.append(self.restaurants[i])
+                    ids.append(i)
                 else:
                     break
 
-        return rests
+        ids.sort(key=lambda i: (self.restaurants[i].distance, -self.restaurants[i].id))
+        return [self.restaurants[i].id for i in ids]
 
 
 if __name__ == "__main__":
-    r = Restaurants([
+    rests = [
         # id, rate, price, distance
-        Restaurant(3, 1, 20, 12),
-        Restaurant(0, 3, 20, 11),
-        Restaurant(2, 4, 20, 12),
-        Restaurant(1, 5, 20, 11),
-    ])
-    a = r.filter(0, 20, 1)
-    print([i.id for i in a])
-    a.sort()
-    print([i.id for i in a])
-    a.sort(key=functools.cmp_to_key(Restaurant.comparatorOfDistance))
-    print([i.id for i in a])
+        Restaurant(20, 1, 20, 12),
+        Restaurant(15, 3, 19, 11),
+        Restaurant(19, 4, 19, 12),
+        Restaurant(18, 5, 20, 11),
+    ]
+    r = Restaurants(rests)
+    print(r.filter(0, 25, 3)) 
+    print(r.filter(0, 25, 4)) 
+    print(r.filter(0, 20, 1)) 
+    print(r.filter(0, 10, 1))
+    print(r.filter(0, 19, 1))
+    print(r.filter(19, 19, 3))
+
+    # case6
+    rests = [
+        # id, rate, price, distance
+        Restaurant(3, 2, 3, 8),
+        Restaurant(0, 2, 4, 6),
+        Restaurant(2, 4, 5, 12),
+        Restaurant(1, 5, 6, 11),
+    ]
+    print([i.getID() for i in sorted(rests)])
+    print([i.getID() for i in sorted(rests, key=functools.cmp_to_key(Restaurant.comparator1))])
+
+    """
+Output:
+[18, 15, 19]
+[18, 19]
+[18, 15, 20, 19]
+[]
+[15, 19]
+[15, 19]
+[3, 0, 1, 2]
+[0, 3, 2, 1]
+    """
+
