@@ -4,25 +4,30 @@ class DisjointSet():
         self.groupid = list(range(N))
         self.group_size = [1] * N
         self.group_num = N
-        self.max_num = list(range(N))
         self.is_open = [False] * N
+        self.has_top = [False] * N
+        self.has_bottom = [False] * N
+        self.is_percolates = False
 
     def union(self, a :int, b :int):
         """ Merge a and b into one group """
         pa = self.find(a)
         pb = self.find(b)
+
         if pa != pb:
             # weighted
             if self.group_size[pa] < self.group_size[pb]:
                 pa, pb = pb, pa
-
             self.groupid[pb] = pa
             self.group_size[pa] += self.group_size[pb]
-            self.max_num[pa] = max(self.max_num[pa], self.max_num[pb])
+            self.has_top[pa] = self.has_top[pa] or self.has_top[pb]
+            self.has_bottom[pa] = self.has_bottom[pa] or self.has_bottom[pb]
             self.group_num -= 1
+        if self.has_top[pa] and self.has_bottom[pa]:
+            self.is_percolates = True
 
-    def getMax(self, a :int) -> int:
-        return self.max_num[self.find(a)]
+    def getTop(self, a :int) -> int:
+        return self.has_top[self.find(a)]
 
     def find(self, a :int) -> int:
         """ Find the group id of a """
@@ -52,12 +57,14 @@ class Percolation():
     def __init__(self, N :int):
         """ Create N-by-N grid, with all sites blocked """
         # 0 -> top
-        self.set = DisjointSet(N ** 2 + 1)
+        self.set = DisjointSet(N ** 2)
         self.N = N
-        self.is_percolates = False
+        for i in range(N):
+            self.set.has_top[self.mapID(0, i)] = True
+            self.set.has_bottom[self.mapID(N - 1, i)] = True
 
     def mapID(self, i, j):
-        return i * self.N + j + 1
+        return i * self.N + j
 
     def open(self, i :int, j :int):
         """ Open site (row i, column j) if it is not open already """
@@ -71,19 +78,11 @@ class Percolation():
         for ii, jj in [(-1, 0), (1, 0), (0, -1), (0, 1)]:
             iii, jjj = i + ii, j + jj
             ij = self.mapID(iii, jjj)
+            self.set.union(id, id)
             if (iii >= 0 and iii < self.N and
                 jjj >= 0 and jjj < self.N and
                 self.set.is_open[ij]):
                 self.set.union(id, ij)
-
-        # virual node
-        if i == 0:
-            self.set.union(id, 0)
-
-        if (not self.is_percolates and 
-            self.set.isConnected(id, 0) and 
-            self.set.getMax(id) >= len(self.set.groupid) - self.N):
-            self.is_percolates = True
 
     def isOpen(self, i :int, j :int) -> bool:
         """ Is site (row i, column j) open? """
@@ -94,11 +93,11 @@ class Percolation():
         id = self.mapID(i, j)
         if not self.set.is_open[id]:
             raise ValueError
-        return self.set.isConnected(0, id)
-        
+        return self.set.getTop(id)
+
     def percolates(self) -> bool:
         """ Does the system percolate? """
-        return self.is_percolates
+        return self.set.is_percolates
 
     def __str__(self):
         return "\n".join([

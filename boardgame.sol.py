@@ -7,17 +7,14 @@ class DisjointSet():
         """ Init N group """
         self.groupid = list(range(N))
         self.group_size = [1] * N
-        self.group_num = N
 
         # chess game specific
         self.no_surround_num = [0] * N
         self.chesses = ['.'] * N
-        self.surroundid = []
 
     def add(self, chess :str) -> int:
         """ Add one element in the set """
         id = len(self.groupid)
-        self.group_num += 1
         self.group_size.append(1)
         self.groupid.append(id)
 
@@ -28,16 +25,7 @@ class DisjointSet():
 
     def surroundUpdate(self, a: int, num: int):
         """ Update no_surround_num of the group by adding num """
-        a = self.find(a)
-        self.no_surround_num[a] += num
-
-    def getChess(self, a :int) -> str:
-        """ Get chess on id"""
-        return self.chesses[self.find(a)]
-
-    def setChess(self, a :int, chess :str):
-        """ Set chess on a """
-        self.chesses[self.find(a)] = chess
+        self.no_surround_num[self.find(a)] += num
 
     def union(self, a :int, b :int):
         """ Merge a and b into one group """
@@ -48,10 +36,7 @@ class DisjointSet():
                 pa, pb = pb, pa
             self.groupid[pb] = pa
             self.group_size[pa] += self.group_size[pb]
-            self.group_num -= 1
-
-            # chess game specific
-            self.surroundUpdate(pa, self.no_surround_num[pb])
+            self.no_surround_num[pa] += self.no_surround_num[pb]
 
     def find(self, a :int) -> int:
         """ Find the group id of a """
@@ -64,88 +49,58 @@ class DisjointSet():
             self.groupid[a] = self.find(self.groupid[a])
         return self.groupid[a]
 
-    def isConnected(self, a :int, b :int) -> bool:
-        """ Check a and b is in the same group """
-        return self.find(a) == self.find(b)
-
-    def groupSize(self, a :int) -> int:
-        """ The size of group """
-        return self.group_size[self.find(a)]
-
-    def count(self):
-        """ The number of groups in this set """
-        return self.group_num
-
 
 class BoardGame:
     def __init__(self, h :int, w :int):
         """
         Set the width and height of the board
-        
+
         Parameters:
             h (int): The height of the board
             w (int): The width of the board
         """
         self.set = DisjointSet(0)
         self.map = {}
-        self.N = max(h, w)
 
     def putStone(self, x :List[int], y :List[int], stoneType :str):
         """
         Put the stones on (x[0],y[0]), (x[1], y[1]) ...
-        
+
         We grantee there are not stones on (x[i],y[i]) in the board.
-        
+
         Parameters:
             x (int): The height position of the stone, 0 <= x <= h
             y (int): The width position of the stone, 0 <= y <= w
             stoneType (string): The type of the stone, which has only two values {'O', 'X'}
         """
         for i in range(len(x)):
-            self.putOneChess(x[i], y[i], stoneType)
+            self.putOneStone(x[i], y[i], stoneType)
 
-    def putOneChess(self, x :int, y :int, chess :str):
-        """ Put the chess on (x,y) """
+    def putOneStone(self, x :int, y :int, stone_type:str):
+        """ Put the stone on (x,y) """
+        # Update myself
+        id = self.set.add(stone_type)
+        self.map[(x, y)] = id
+        self.set.surroundUpdate(id, 4)
+
         # find surrounded o and x
-        chess_same = []
-        chess_diff = []
         for ii, jj in [(-1, 0), (1, 0), (0, -1), (0, 1)]:
             ij = (x + ii, y + jj)
             if ij in self.map:
                 ij = self.map[ij]
-                if self.set.chesses[ij] == chess:
-                    chess_same.append(ij)
-                elif self.set.chesses[ij] != chess:
-                    chess_diff.append(ij)
-                else:
-                    raise ValueError
-        
-        # Update myself
-        id = self.set.add(chess)
-        self.map[(x, y)] = id
-        self.set.surroundUpdate(id, 4 - 2 * len(chess_same) - len(chess_diff))
-
-        # Update surrounded o and x
-        for i in chess_same:
-            self.set.union(i, id)
-        for i in chess_diff:
-            self.set.surroundUpdate(i, -1) 
-
-    def flipStone(self, stoneType :str):
-        """
-        Flip the stone if the connected stones are surrounded by another type of stones.
-        
-        Parameters:
-            stoneType (int): The type of stones we want to flip, which has only two values {'O', 'X'}
-        """
-        pass
+                if self.set.chesses[ij] == stone_type:
+                    self.set.surroundUpdate(id, -2)
+                    self.set.union(id, ij)
+                else:  # self.set.chesses[ij] != stone_type:
+                    self.set.surroundUpdate(id, -1)
+                    self.set.surroundUpdate(ij, -1)
 
     def surrounded(self, x :int, y :int) -> bool:
         """
         Give if the connected stones can be flipped,
-        
+
         i.e. Stones are surrounded by another type of stones.
-        
+
         Parameters:
             x (int): The height position of the stone, 0 <= x <= h
             y (int): The width position of the stone, 0 <= y <= w
@@ -158,9 +113,9 @@ class BoardGame:
     def getStoneType(self, x :int, y :int) -> str:
         """
         Get the type of the stone on (x,y)
-            
+
         We grantee that there are stones on (x,y)
-        
+
         Parameters:
             x (int): The height position of the stone, 0 <= x <= h
             y (int): The width position of the stone, 0 <= y <= w

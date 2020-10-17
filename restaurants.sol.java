@@ -111,7 +111,6 @@ class Restaurants {
     }
 
     public static void main(String[] args) {
-
         // test
         List<Restaurant> restaurants = new ArrayList<Restaurant>();
         restaurants.add(new Restaurant(20, 1, 20, 12));
@@ -126,7 +125,7 @@ class Restaurants {
         System.out.println(Arrays.toString(r.filter(0, 19, 1)));
         System.out.println(Arrays.toString(r.filter(19, 19, 3)));
 
-        // case 6
+        // case6
         restaurants = new ArrayList<Restaurant>();
         restaurants.add(new Restaurant(3, 2, 3, 8));
         restaurants.add(new Restaurant(0, 2, 4, 6));
@@ -146,5 +145,17 @@ class Restaurants {
             System.out.print(" ");
         }
         System.out.println("");
+        /*
+Output:
+[18, 15, 19]
+[18, 19]
+[18, 15, 20, 19]
+[]
+[15, 19]
+[15, 19]
+[3, 0, 1, 2]
+[0, 3, 2, 1]
+        */
+
     }
 }
