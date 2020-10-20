@@ -77,7 +77,10 @@ class Restaurants {
 
     public int[] filter(int min_price, int max_price, int min_rate) {
         List<Integer> inds = new ArrayList<Integer>();
-        for(int i=0; i < this.restaurants.size(); ++i) {
+        Restaurant tmp = new Restaurant(-1, min_rate, min_price - 1, 0);
+        for(int i=Collections.binarySearch(this.restaurants, tmp, new Restaurant.ComparatorOfRatePrice()); i < this.restaurants.size(); ++i) {
+            if (i < 0)
+                continue;
             if (this.restaurants.get(i).price > max_price)
                 break;
             if (this.restaurants.get(i).rate >= min_rate &&
