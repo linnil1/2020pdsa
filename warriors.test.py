@@ -92,27 +92,27 @@ cases.append({
         # 0
         # increasing
         {'strength':   np.arange(100000),
-         'attack_range': np.ones(100000) * 1000000},
+         'attack_range': np.ones(100000, dtype=np.int) * 1000000},
 
         # 1
         # decreasing
         {'strength':   np.flip(np.arange(100000)),
-         'attack_range': np.ones(100000) * 1000000},
+         'attack_range': np.ones(100000, dtype=np.int) * 1000000},
 
         # 2
         # increasing + decreasing
         {'strength':   np.hstack([np.arange(100000), np.flip(np.arange(100000))]),
-         'attack_range': np.ones(200000) * 4000000},
+         'attack_range': np.ones(200000, dtype=np.int) * 4000000},
 
         # 3
         # decreasing + increasing
         {'strength':   np.hstack([np.flip(np.arange(100000)), np.arange(100000)]),
-         'attack_range': np.ones(200000) * 4000000},
+         'attack_range': np.ones(200000, dtype=np.int) * 4000000},
 
         # 4
         # increasing + no attack
         {'strength':   np.arange(100000),
-         'attack_range': np.zeros(100000)},
+         'attack_range': np.zeros(100000, dtype=np.int)},
 
         # 5
         {'strength': [0],

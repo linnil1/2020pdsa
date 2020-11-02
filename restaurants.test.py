@@ -168,7 +168,7 @@ cases.append({
          {'func': 'filter', 'args': [0, 25, 5], 'answer': [4]},
          {'func': 'filter', 'args': [0, 20, 1], 'answer': [0]},
          {'func': 'filter', 'args': [0, 21, 4], 'answer': []},
-         {'func': 'filter', 'args': [0, 25, 0], 'answer': [0, 1, 2, 3, 4]},
+         {'func': 'filter', 'args': [0, 25, 1], 'answer': [0, 1, 2, 3, 4]},
          {'func': 'filter', 'args': [0, 25, 3], 'answer': [2, 3, 4]},
          {'func': 'filter', 'args': [0, 25, 2], 'answer': [1, 2, 3, 4]},
          {'func': 'filter', 'args': [21, 25, 2], 'answer': [1, 2, 3, 4]},

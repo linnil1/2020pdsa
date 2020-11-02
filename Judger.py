@@ -49,6 +49,8 @@ class Judger:
                 now['time'] = self.runtime_acc
                 now["status"] = 'RE'
                 status.append(now)
+                if self.debug:
+                    raise
                 continue
 
             # compare
