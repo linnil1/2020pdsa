@@ -9,7 +9,7 @@ import edu.princeton.cs.algs4.Point2D;
 class Airport {
     public double airport(List<int[]> houses) {
         // Setup for convex
-        double cx=0., cy=0.;
+        double cx=0, cy=0;
         Point2D[] points = new Point2D[houses.size()];
         for(int i=0; i < houses.size(); ++i) {
             cx += houses.get(i)[0];
