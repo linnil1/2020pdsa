@@ -47,9 +47,12 @@ class Judge extends Judger<List<double[]>> {
     }
 
     @Override protected void debugPrint(List<double[]> out, JsonElement ele) {
-        // System.out.println("<" + Double.toString(out));
-        // System.out.println(">" + Double.toString(this.gson.fromJson(ele, Data.class).answer));
-        // System.out.println(">" + gson.toJson(ele));
+        System.out.print("<");
+        for(double[] o: out)
+            System.out.println(Arrays.toString(o));
+        System.out.print(">");
+        for(double[] o: this.gson.fromJson(ele, Data.class).answer)
+            System.out.println(Arrays.toString(o));
     };
 
     public static void main(String []args) {

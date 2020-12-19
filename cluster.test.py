@@ -117,7 +117,7 @@ cases.append({
     'case': 2,
     'score': 20,
     'data': [
-        sample2case1(),
+        # sample2case1(),  # this is ambiuous
         sample2case2(),
         sample2case3(),
     ],

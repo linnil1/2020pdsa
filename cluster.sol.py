@@ -87,6 +87,7 @@ class Cluster:
             discard = False
             if not self.size[i] or not self.size[j]:
                 continue
+            # print(sorted([self.center[i] for i in self.listCluster()]))
 
             tmp = [heapq.heappop(self.heap)]
             while tmp[-1][0] - small_dis < 1e-3:
