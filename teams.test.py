@@ -39,6 +39,9 @@ def quesion(n, limit=1000, falselimit=None):
         cid2 = np.random.choice(id2, size=(falselimit, 2))
         graph = np.vstack([graph, cid1, cid2])
 
+    # remove self-link
+    graph = graph[graph[:, 0] != graph[:, 1]]
+    # remove duplicated-link
     graph = np.unique(graph, axis=0)
     np.random.shuffle(graph)
     # print(graph)
@@ -154,7 +157,7 @@ def c2q2():
             graph.append([i, n + j])
 
     return {
-        'idols': n,
+        'idols': 2 * n,
         'teetee': graph,
         'answer': True,
     }
