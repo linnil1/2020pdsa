@@ -38,7 +38,7 @@ assert len(c) == len(set(c["ID"]) - set(["nan"]))
 m = a.merge(b, how="outer", on="ID", sort=True)\
      .merge(c, how="outer", on="ID", sort=True)
 m = m.loc[~m.loc[:, "ID"].isna()]
-print("Merged")
+print("merged")
 print(m)
 
 # Calculate sum of scores
@@ -52,7 +52,7 @@ m.to_csv("score_merge.csv", index=False, encoding="utf-8-sig")
 
 # shrink the column
 m = m.iloc[:, [0, 1, len(a.columns) - 1, len(a.columns) - 1 + len(b.columns) - 1, -2]]
-m.columns = ["tmp_ID", "Name", "Midterm", "Final", "HW_average"]
+m.columns = ["tmp_ID", "Name", "merge_mid", "merge_fin", "HW_average"]
 
 # read and find user id
 d = pd.read_csv("score_ntucool.csv", index_col=None)
@@ -61,9 +61,13 @@ d["tmp_ID"] = d.loc[:, "SIS Login ID"].str.split("@").str[0]
 
 # merge
 d = d.merge(m, how="left", on="tmp_ID", sort=True)
-d = d.drop(columns=["tmp_ID", "Name"])
-print("Merge to NTUcool")
-print(d)
 
-# save
+name_mid = "midterm_exam (24040)"
+name_fin = "Final_exam (24039)"
+print(d.loc[d["merge_mid"] != d[name_mid], ["tmp_ID", "Student", "merge_mid", name_mid]])
+print(d.loc[d["merge_fin"] != d[name_fin], ["tmp_ID", "Student", "merge_fin", name_fin]])
+d[name_mid] = d["merge_mid"]
+d[name_fin] = d["merge_fin"]
+d = d.drop(columns=["tmp_ID", "Name", "merge_mid", "merge_fin"])
+print(d)
 d.to_csv("score_merge_ntucool.csv", index=False, encoding="utf-8-sig")
